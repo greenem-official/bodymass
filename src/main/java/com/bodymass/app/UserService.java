@@ -51,7 +51,10 @@ public class UserService {
 		if(userDAO.ifUserExistsByEmail(email) == false){
 			return "no such user";
 		}
-		else if(user!=null && user.getId()==0) {
+		else if(checkValidSymbols(password) == false){
+			return "wrong password"; //there can't be such symbols, let's not try what happens with them.
+		}
+		else if((user!=null && user.getId()==0)) {
 			return "wrong password";
 		}
 		else if(user != null) {
@@ -76,6 +79,13 @@ public class UserService {
 		String regex = "^[\\w!#$%&'*+/=?`{|}~^-]+(?:\\.[\\w!#$%&'*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$";
 		Pattern pattern = Pattern.compile(regex);
 		Matcher matcher = pattern.matcher(email);
+		return matcher.matches();
+	}
+
+	public boolean checkValidSymbols(String string){
+		String regex = "[^A-Za-z0-9]";
+		Pattern pattern = Pattern.compile(regex);
+		Matcher matcher = pattern.matcher(string);
 		return matcher.matches();
 	}
 }
