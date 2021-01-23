@@ -1,6 +1,6 @@
 package com.bodymass.app;
 
-import com.bodymass.app.data.User;
+import com.bodymass.app.db.model.User;
 import com.vaadin.server.VaadinSession;
 
 public class UserState {
@@ -10,7 +10,7 @@ public class UserState {
 
     public static UserState get() {
         UserState userState = (UserState) VaadinSession.getCurrent().getAttribute(SESSION_KEY_USER_STATE);
-        if(userState == null) {
+        if (userState == null) {
             userState = new UserState();
             VaadinSession.getCurrent().setAttribute(SESSION_KEY_USER_STATE, userState);
         }

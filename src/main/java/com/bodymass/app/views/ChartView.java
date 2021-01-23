@@ -1,7 +1,6 @@
 package com.bodymass.app.views;
 
-import com.bodymass.app.data.Weight;
-import com.vaadin.ui.Component;
+import com.bodymass.app.db.model.Weight;
 import com.vaadin.ui.VerticalLayout;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
@@ -11,7 +10,6 @@ import org.vaadin.addon.JFreeChartWrapper;
 
 import java.util.List;
 
-//  = "Индекс массы тела за месяц"
 public class ChartView extends VerticalLayout {
     String title;
 
@@ -25,7 +23,7 @@ public class ChartView extends VerticalLayout {
         addComponent(creditGraphLayout());
     }
 
-    public VerticalLayout creditGraphLayout(){
+    public VerticalLayout creditGraphLayout() {
         String rowKey = "Индекс массы тела";
         VerticalLayout layout = new VerticalLayout();
 

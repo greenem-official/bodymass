@@ -1,4 +1,4 @@
-package com.bodymass.app.data;
+package com.bodymass.app.db.model;
 
 import java.sql.Date;
 
