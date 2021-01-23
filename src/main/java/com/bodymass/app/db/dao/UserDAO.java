@@ -21,7 +21,7 @@ public class UserDAO extends AbstractDAO {
         ResultSet rs = stmt.executeQuery("SELECT id, email, password FROM users");
         while (rs.next()) {
             int id = rs.getInt("id");
-            String email = Crypter.decode(rs.getString("email"));
+            String email = rs.getString("email");
             String password = Crypter.decode(rs.getString("password"));
 
             result.add(new User(id, email, password));
@@ -55,7 +55,7 @@ public class UserDAO extends AbstractDAO {
 
         PreparedStatement preparedStatement = conn
                 .prepareStatement("INSERT INTO users(email, password) VALUES(?, ?)");
-        preparedStatement.setString(1, Crypter.encode(user.getEmail()));
+        preparedStatement.setString(1, user.getEmail());
         preparedStatement.setString(2, Crypter.encode(user.getPassword()));
         int row = preparedStatement.executeUpdate();
 
@@ -102,7 +102,7 @@ public class UserDAO extends AbstractDAO {
 
         PreparedStatement preparedStatement = conn.prepareStatement("UPDATE users SET password=? where email=?");
         preparedStatement.setString(1, Crypter.encode(user.getPassword()));
-        preparedStatement.setString(2, Crypter.encode(user.getEmail()));
+        preparedStatement.setString(2, user.getEmail());
         int row = preparedStatement.executeUpdate();
 
         if (preparedStatement != null) {
@@ -125,7 +125,7 @@ public class UserDAO extends AbstractDAO {
         Connection conn = getConnection();
 
         PreparedStatement preparedStatement = conn.prepareStatement("SELECT id, email, password FROM users WHERE email=? and password=?");
-        preparedStatement.setString(1, Crypter.encode(email));
+        preparedStatement.setString(1, email);
         preparedStatement.setString(2, Crypter.encode(password));
 
         ResultSet rs = preparedStatement.executeQuery();
@@ -134,7 +134,7 @@ public class UserDAO extends AbstractDAO {
         String newPassword = "";
         if (rs.next()) {
             id = rs.getInt("id");
-            newEmail = Crypter.decode(rs.getString("email"));
+            newEmail = rs.getString("email");
             newPassword = Crypter.decode(rs.getString("password"));
         }
 
@@ -166,7 +166,7 @@ public class UserDAO extends AbstractDAO {
         Connection conn = getConnection();
 
         PreparedStatement preparedStatement = conn.prepareStatement("SELECT id FROM users WHERE email=?");
-        preparedStatement.setString(1, Crypter.encode(email));
+        preparedStatement.setString(1, email);
 
         ResultSet rs = preparedStatement.executeQuery();
         boolean result = false;
