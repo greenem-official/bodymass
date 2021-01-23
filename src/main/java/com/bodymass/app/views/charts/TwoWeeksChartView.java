@@ -3,7 +3,6 @@ package com.bodymass.app.views.charts;
 import com.bodymass.app.AppUI;
 import com.bodymass.app.UserState;
 import com.bodymass.app.services.WeightService;
-import com.bodymass.app.views.ChartView;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.VerticalLayout;
 

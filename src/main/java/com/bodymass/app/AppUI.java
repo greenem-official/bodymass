@@ -2,6 +2,7 @@ package com.bodymass.app;
 
 import javax.servlet.annotation.WebServlet;
 
+import com.bodymass.app.views.AddWeightView;
 import com.bodymass.app.views.LoginView;
 import com.bodymass.app.views.RegistrationView;
 import com.bodymass.app.views.charts.OneWeekChartView;
@@ -31,6 +32,10 @@ public class AppUI extends UI {
 
     public Button loginButton;
     public Button registrationButton;
+    public Button exitButton;
+
+    public Button addWeightButton;
+
     public Button weekChartButton;
     public Button twoWeeksChartButton;
     public Button monthChartButton;
@@ -39,21 +44,34 @@ public class AppUI extends UI {
 
     @Override
     protected void init(VaadinRequest vaadinRequest) {
-        setContent(new RegistrationView());
+        setContent(new LoginView());
     }
 
     public HorizontalLayout createMenu() {
         HorizontalLayout content = new HorizontalLayout();
 
-        loginButton = new Button("Войти");
-        loginButton.addClickListener(e -> setContent(new LoginView()));
-        content.addComponent(loginButton);
+        if (UserState.get().getUser() == null) {
+            loginButton = new Button("Войти");
+            loginButton.addClickListener(e -> setContent(new LoginView()));
+            content.addComponent(loginButton);
 
-        registrationButton = new Button("Регистрация");
-        registrationButton.addClickListener(e -> setContent(new RegistrationView()));
-        content.addComponent(registrationButton);
+            registrationButton = new Button("Регистрация");
+            registrationButton.addClickListener(e -> setContent(new RegistrationView()));
+            content.addComponent(registrationButton);
+        } else {
+            exitButton = new Button("Выйти");
+            exitButton.addClickListener(e -> {
+                UserState.get().setUser(null);
+                setContent(new LoginView());
+            });
+            content.addComponent(exitButton);
 
-        if (UserState.get().getUser() != null) {
+            addWeightButton = new Button("Ввести вес");
+            addWeightButton.addClickListener(e -> {
+                setContent(new AddWeightView());
+            });
+            content.addComponent(addWeightButton);
+
             weekChartButton = new Button("График за неделю");
             weekChartButton.addClickListener(e -> setContent(new OneWeekChartView()));
             content.addComponent(weekChartButton);

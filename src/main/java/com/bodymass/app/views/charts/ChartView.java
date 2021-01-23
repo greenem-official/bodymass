@@ -1,4 +1,4 @@
-package com.bodymass.app.views;
+package com.bodymass.app.views.charts;
 
 import com.bodymass.app.db.model.Weight;
 import com.vaadin.ui.VerticalLayout;
@@ -45,6 +45,8 @@ public class ChartView extends VerticalLayout {
 
 
         JFreeChartWrapper wrapper = new JFreeChartWrapper(chart);
+        wrapper.setWidth(1000, Unit.PIXELS);
+        wrapper.setHeight(700, Unit.PIXELS);
 
         layout.addComponent(wrapper);
 
