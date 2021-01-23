@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import javax.servlet.annotation.WebServlet;
 
 import com.bodymass.app.data.User;
+import com.bodymass.app.views.ChartView;
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.Title;
 import com.vaadin.annotations.VaadinServletConfiguration;
@@ -18,8 +19,6 @@ import com.vaadin.ui.Panel;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
-import com.vaadin.ui.Button.ClickEvent;
-import com.bodymass.app.Functions;
 
 /**
  * This UI is the application entry point. A UI may either represent a browser window 
@@ -31,10 +30,16 @@ import com.bodymass.app.Functions;
 @Title("Weight")
 @Theme("mytheme")
 public class AppUI extends UI {
-    //private HorizontalLayout content = new HorizontalLayout();
 	private UserService userService = new UserService();
+	private WeightService weightService = new WeightService();
+
 	private Button loginButton;
 	private Button registrationButton;
+	private Button weekChartButton;
+	private Button twoWeeksChartButton;
+	private Button monthChartButton;
+	private Button halfYearChartButton;
+	private Button yearChartButton;
 
 	@Override
 	protected void init(VaadinRequest vaadinRequest) {
@@ -139,6 +144,13 @@ public class AppUI extends UI {
 				errorLabel.setValue("Ошибка входа");
 			}
 			else if(isErr.equalsIgnoreCase("successful")) {
+				try {
+					User user = userService.getUser(emailField.getValue(), passwordField.getValue());
+					UserState.get().setUser(user);
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+				}
+
 				errorLabel.setValue("Вы вошли");
 				setContent(createAfterAuthPanel());
 			}
@@ -157,12 +169,7 @@ public class AppUI extends UI {
 			else if(isErr.equalsIgnoreCase("incorrect email")) {
 				errorLabel.setValue("Введён некорректный Email");
 			} else {
-				try {
-					User user = userService.getUser(emailField.getValue(), passwordField.getValue());
-					UserState.get().setUser(user);
-				} catch (SQLException e1) {
-					e1.printStackTrace();
-				}
+				errorLabel.setValue("Неизвестная ошибка");
 			}
 		});
 		form.addComponent(saveButton);
@@ -188,6 +195,16 @@ public class AppUI extends UI {
 		registrationButton = new Button("Регистрация");
 		registrationButton.addClickListener(e -> setContent(createRegistrationPanel()));
 		content.addComponent(registrationButton);
+
+		if(UserState.get().getUser() != null) {
+			weekChartButton = new Button("График за неделю");
+			weekChartButton.addClickListener(e -> setContent(createWeekChartPanel()));
+			content.addComponent(weekChartButton);
+
+			twoWeeksChartButton = new Button("График за 2 недели");
+			twoWeeksChartButton.addClickListener(e -> setContent(createTwoWeeksChartPanel()));
+			content.addComponent(twoWeeksChartButton);
+		}
 
 		return content;
 	}
@@ -238,6 +255,33 @@ public class AppUI extends UI {
 
 		return content;
 	}
+
+	private VerticalLayout createWeekChartPanel() {
+		Panel panel = new Panel("График за неделю");
+		panel.setSizeUndefined();
+		long userId = UserState.get().getUser().getId();
+		panel.setContent(new ChartView("Индекс массы тела за недею", weightService.selectLastWeek(userId)));
+
+		VerticalLayout content = new VerticalLayout();
+		content.addComponent(createMenu());
+		content.addComponent(panel);
+
+		return content;
+	}
+
+	private VerticalLayout createTwoWeeksChartPanel() {
+		Panel panel = new Panel("График за 2 недели");
+		panel.setSizeUndefined();
+		long userId = UserState.get().getUser().getId();
+		panel.setContent(new ChartView("Индекс массы тела за недею", weightService.selectLastTwoWeeks(userId)));
+
+		VerticalLayout content = new VerticalLayout();
+		content.addComponent(createMenu());
+		content.addComponent(panel);
+
+		return content;
+	}
+
 
 	@WebServlet(urlPatterns = "/*", name = "MyUIServlet", asyncSupported = true)
 	@VaadinServletConfiguration(ui = AppUI.class, productionMode = false)

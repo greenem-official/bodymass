@@ -51,9 +51,9 @@ public class UserService {
 		if(userDAO.ifUserExistsByEmail(email) == false){
 			return "no such user";
 		}
-		else if(checkValidSymbols(password) == false){
-			return "wrong password"; //there can't be such symbols, let's not try what happens with them.
-		}
+//		else if(checkValidSymbols(password) == false){
+//			return "wrong password"; //there can't be such symbols, let's not try what happens with them.
+//		}
 		else if((user!=null && user.getId()==0)) {
 			return "wrong password";
 		}

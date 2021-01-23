@@ -3,7 +3,6 @@ package com.bodymass.app.data;
 import com.bodymass.app.crypto.Crypter;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -11,23 +10,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List; 
 
-public class UserDAOTools {
-	static {
-		try {
-			Class.forName("com.mysql.cj.jdbc.Driver");
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-			throw new RuntimeException(e);
-		}
-	}
-
-	private String url = "jdbc:mysql://192.168.1.72/mydb?" + "useUnicode=true&serverTimezone=UTC" + "&user=root2&password=root2";
-
-	public Connection getConnection() throws SQLException {
-		Connection conn = DriverManager.getConnection(url);
-		return conn;
-	}
-	
+public class UserDAOTools extends AbstractDAO {
 	public List<User> selectAllUsers() throws SQLException {
 		List<User> result = new ArrayList<>();
 
