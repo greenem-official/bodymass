@@ -1,4 +1,5 @@
-INSERT INTO users (id,email,password) VALUES (1,'eOYmiz40PxRIFFTZkc7SWw==','idOn0fK4xU4OhQQQ6W+vvQ==');
+-- encripted password is 'adm'
+INSERT INTO users (id,email,password) VALUES (1,'adm@test.ru','idOn0fK4xU4OhQQQ6W+vvQ==');
 
 insert into weight (user_id, data, value) values(1, '2021-01-01', 95.2);
 insert into weight (user_id, data, value) values(1, '2021-01-02', 95.0);
