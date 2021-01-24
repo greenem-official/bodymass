@@ -8,6 +8,7 @@ import com.bodymass.app.views.RegistrationView;
 import com.bodymass.app.views.charts.OneWeekChartView;
 import com.bodymass.app.views.charts.PeriodWeeksChartView;
 import com.bodymass.app.views.charts.TwoWeeksChartView;
+import com.vaadin.annotations.PreserveOnRefresh;
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.Title;
 import com.vaadin.annotations.VaadinServletConfiguration;
@@ -31,6 +32,7 @@ import java.time.LocalDate;
  * The UI is initialized using {@link #init(VaadinRequest)}. This method is intended to be
  * overridden to add component to the user interface and initialize non-component functionality.
  */
+@PreserveOnRefresh
 @Title("BobyMass")
 @Theme("mytheme")
 public class AppUI extends UI {
