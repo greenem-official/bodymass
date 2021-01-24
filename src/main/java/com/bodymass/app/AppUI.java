@@ -6,6 +6,7 @@ import com.bodymass.app.views.AddWeightView;
 import com.bodymass.app.views.LoginView;
 import com.bodymass.app.views.RegistrationView;
 import com.bodymass.app.views.charts.OneWeekChartView;
+import com.bodymass.app.views.charts.PeriodWeeksChartView;
 import com.bodymass.app.views.charts.TwoWeeksChartView;
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.Title;
@@ -13,8 +14,15 @@ import com.vaadin.annotations.VaadinServletConfiguration;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinServlet;
 import com.vaadin.ui.Button;
+import com.vaadin.ui.DateField;
+import com.vaadin.ui.GridLayout;
 import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.Notification;
 import com.vaadin.ui.UI;
+import com.vaadin.ui.VerticalLayout;
+
+import java.sql.Date;
+import java.time.LocalDate;
 
 /**
  * This UI is the application entry point. A UI may either represent a browser window
@@ -41,56 +49,86 @@ public class AppUI extends UI {
     public Button monthChartButton;
     public Button halfYearChartButton;
     public Button yearChartButton;
+    public DateField fromDate;
+    public DateField toDate;
+    public Button periodButton;
 
     @Override
     protected void init(VaadinRequest vaadinRequest) {
         setContent(new LoginView());
     }
 
-    public HorizontalLayout createMenu() {
-        HorizontalLayout content = new HorizontalLayout();
+    public GridLayout createMenu() {
+        HorizontalLayout line1 = new HorizontalLayout();
+        HorizontalLayout line2 = new HorizontalLayout();
+        GridLayout grid = new GridLayout(1, 2);
 
         if (UserState.get().getUser() == null) {
             loginButton = new Button("Войти");
             loginButton.addClickListener(e -> setContent(new LoginView()));
-            content.addComponent(loginButton);
+            line1.addComponent(loginButton);
 
             registrationButton = new Button("Регистрация");
             registrationButton.addClickListener(e -> setContent(new RegistrationView()));
-            content.addComponent(registrationButton);
+            line1.addComponent(registrationButton);
+
+            grid.addComponent(line1, 0, 0);
         } else {
             exitButton = new Button("Выйти");
             exitButton.addClickListener(e -> {
                 UserState.get().setUser(null);
                 setContent(new LoginView());
             });
-            content.addComponent(exitButton);
+            line1.addComponent(exitButton);
 
             addWeightButton = new Button("Ввести вес");
             addWeightButton.addClickListener(e -> {
                 setContent(new AddWeightView());
             });
-            content.addComponent(addWeightButton);
+            line1.addComponent(addWeightButton);
 
             weekChartButton = new Button("График за неделю");
             weekChartButton.addClickListener(e -> setContent(new OneWeekChartView()));
-            content.addComponent(weekChartButton);
+            line1.addComponent(weekChartButton);
 
             twoWeeksChartButton = new Button("График за 2 недели");
             twoWeeksChartButton.addClickListener(e -> setContent(new TwoWeeksChartView()));
-            content.addComponent(twoWeeksChartButton);
+            line1.addComponent(twoWeeksChartButton);
 
             monthChartButton = new Button("График за месяц");
-            content.addComponent(monthChartButton);
+            line1.addComponent(monthChartButton);
 
             halfYearChartButton = new Button("График за полгода");
-            content.addComponent(halfYearChartButton);
+            line1.addComponent(halfYearChartButton);
 
             yearChartButton = new Button("График за год");
-            content.addComponent(yearChartButton);
+            line1.addComponent(yearChartButton);
+
+            fromDate = new DateField();
+//            fromDate.setValue(new LocalDate());
+            fromDate.setDateFormat("dd-MM-yyyy");
+            line2.addComponent(fromDate);
+
+            toDate = new DateField();
+//            fromDate.setValue(new LocalDate());
+            toDate.setDateFormat("dd-MM-yyyy");
+            line2.addComponent(toDate);
+
+            periodButton = new Button("График за период");
+            periodButton.addClickListener(e -> {
+                if(fromDate.getValue() == null || toDate.getValue() == null) {
+                    Notification.show("Не указана дата");
+                } else {
+                    setContent(new PeriodWeeksChartView(Date.valueOf(fromDate.getValue()), Date.valueOf(toDate.getValue())));
+                }
+            });
+            line2.addComponent(periodButton);
+
+            grid.addComponent(line1, 0, 0);
+            grid.addComponent(line2, 0, 1);
         }
 
-        return content;
+        return grid;
     }
 
     @WebServlet(urlPatterns = "/*", name = "MyUIServlet", asyncSupported = true)
