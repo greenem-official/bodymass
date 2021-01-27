@@ -300,7 +300,7 @@ public class WeightDAO extends AbstractDAO {
         }
     }
 
-    public double getLastWeight(long userId) throws SQLException {
+    public Double getLastWeight(long userId) throws SQLException {
         Connection conn = getConnection();
 
         PreparedStatement preparedStatement = conn.prepareStatement("select value from weight where user_id=? order by data desc limit 1");

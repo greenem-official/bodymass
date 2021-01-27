@@ -38,11 +38,12 @@ public class AddWeightView extends VerticalLayout {
         lastWeight.setEnabled(false);
         weightLast = lastWeight;
         Double lastValue = null;
-        try {
-            lastValue = weightDao.getLastWeight(UserState.get().getUser().getId());
-        }
-        catch(SQLException e){
-            e.printStackTrace();
+        if(UserState.get().getUser()!=null) {
+            try {
+                lastValue = weightDao.getLastWeight(UserState.get().getUser().getId());
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
         if(lastValue!=null){
             lastWeight.setValue(Double.toString(lastValue));

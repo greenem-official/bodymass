@@ -1,6 +1,8 @@
 package com.bodymass.app.views;
 
 import com.bodymass.app.AppUI;
+import com.bodymass.app.UserState;
+import com.bodymass.app.db.model.User;
 import com.bodymass.app.services.UserService;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.FormLayout;
@@ -58,6 +60,12 @@ public class RegistrationView extends VerticalLayout {
             } else if (isErr.equalsIgnoreCase("undefined")) {
                 errorLabel.setValue("Ошибка регистрации");
             } else if (isErr.equalsIgnoreCase("successful")) {
+                try {
+                    User user = userService.getUser(emailField.getValue(), passwordField.getValue());
+                    UserState.get().setUser(user);
+                } catch (SQLException e1) {
+                    e1.printStackTrace();
+                }
                 errorLabel.setValue("Вы успешно зарегистрированы");
                 //setContent(createLoginPanel());
                 AppUI.get().setContent(new AddWeightView());
