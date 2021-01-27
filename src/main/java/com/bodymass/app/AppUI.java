@@ -5,9 +5,7 @@ import javax.servlet.annotation.WebServlet;
 import com.bodymass.app.views.AddWeightView;
 import com.bodymass.app.views.LoginView;
 import com.bodymass.app.views.RegistrationView;
-import com.bodymass.app.views.charts.OneWeekChartView;
-import com.bodymass.app.views.charts.PeriodWeeksChartView;
-import com.bodymass.app.views.charts.TwoWeeksChartView;
+import com.bodymass.app.views.charts.*;
 import com.vaadin.annotations.PreserveOnRefresh;
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.Title;
@@ -33,7 +31,7 @@ import java.time.LocalDate;
  * overridden to add component to the user interface and initialize non-component functionality.
  */
 @PreserveOnRefresh
-@Title("BobyMass")
+@Title("Weight")
 @Theme("mytheme")
 public class AppUI extends UI {
     public static AppUI get() {
@@ -98,12 +96,15 @@ public class AppUI extends UI {
             line1.addComponent(twoWeeksChartButton);
 
             monthChartButton = new Button("График за месяц");
+            monthChartButton.addClickListener(e -> setContent(new MonthChartView()));
             line1.addComponent(monthChartButton);
 
             halfYearChartButton = new Button("График за полгода");
+            halfYearChartButton.addClickListener(e -> setContent(new HalfAYearChartView()));
             line1.addComponent(halfYearChartButton);
 
             yearChartButton = new Button("График за год");
+            yearChartButton.addClickListener(e -> setContent(new YearChartView()));
             line1.addComponent(yearChartButton);
 
             fromDate = new DateField();

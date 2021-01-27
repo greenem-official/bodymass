@@ -1,14 +1,28 @@
 package com.bodymass.app.views;
 
 import com.bodymass.app.AppUI;
+import com.bodymass.app.UserState;
+import com.bodymass.app.db.dao.WeightDAO;
+import com.bodymass.app.services.WeightService;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
+import sun.jvm.hotspot.SALauncher;
+
+import java.sql.Date;
+import java.sql.SQLException;
 
 public class AddWeightView extends VerticalLayout {
+    private WeightService weightService = new WeightService();
+    private WeightDAO weightDao = new WeightDAO();
+
+    public TextField weightLast;
+    public TextField weightToday;
+    public Button confirmSendingWeight;
+
     public AddWeightView() {
         AppUI.get().loginButton.setVisible(false);
         AppUI.get().registrationButton.setVisible(false);
@@ -19,18 +33,45 @@ public class AddWeightView extends VerticalLayout {
         Label errorLabel = new Label("");
         errorLabel.setVisible(false);
 
-        TextField emailField = new TextField("Вес в прошлый раз");
-        emailField.setRequiredIndicatorVisible(false);
-        form.addComponent(emailField);
+        TextField lastWeight = new TextField("Вес в прошлый раз");
+        lastWeight.setRequiredIndicatorVisible(false);
+        lastWeight.setEnabled(false);
+        weightLast = lastWeight;
+        Double lastValue = null;
+        try {
+            lastValue = weightDao.getLastWeight(UserState.get().getUser().getId());
+        }
+        catch(SQLException e){
+            e.printStackTrace();
+        }
+        if(lastValue!=null){
+            lastWeight.setValue(Double.toString(lastValue));
+        }
+        else{
+            lastWeight.setValue("Ещё нет");
+        }
+        form.addComponent(lastWeight);
 
-        TextField passwordField = new TextField("Вес сегодня");
-        passwordField.setRequiredIndicatorVisible(false);
-        form.addComponent(passwordField);
+        TextField TodayWeight = new TextField("Вес сегодня");
+        TodayWeight.setRequiredIndicatorVisible(false);
+        weightToday = TodayWeight;
+        form.addComponent(TodayWeight);
 
         Button saveButton = new Button("Подтвердить");
+        confirmSendingWeight = saveButton;
         saveButton.addClickListener(e -> {
-            errorLabel.setValue("Данные успешно отправленны (fake message)");
-            errorLabel.setVisible(true);
+            String value = weightToday.getValue();
+            String sendErr = weightService.isSendWeightFieldCorrect(value);
+            if(sendErr.equalsIgnoreCase("not double")){
+                errorLabel.setVisible(true);
+                errorLabel.setValue("Пожалуйста, введите число");
+            }
+            else if(sendErr.equalsIgnoreCase("successful")){
+                value.replaceAll(",", ".");
+                weightService.addWeight(UserState.get().getUser().getId(), new Date(System.currentTimeMillis()), Double.parseDouble(value));
+                errorLabel.setValue("Данные успешно отправленны");
+                errorLabel.setVisible(true);
+            }
         });
         form.addComponent(saveButton);
 
