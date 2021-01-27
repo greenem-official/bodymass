@@ -148,6 +148,10 @@
 				<version>${jetty.plugin.version}</version>
 				<configuration>
 					<scanIntervalSeconds>2</scanIntervalSeconds>
+					<httpConnector>
+						<port>8080</port>
+						<host>0.0.0.0</host>
+					</httpConnector>
 				</configuration>
 			</plugin>
 		</plugins>
