@@ -24,8 +24,24 @@ public class AddWeightView extends VerticalLayout {
     public Button confirmSendingWeight;
 
     public AddWeightView() {
-        AppUI.get().loginButton.setVisible(false);
-        AppUI.get().registrationButton.setVisible(false);
+        if(AppUI.get().loginButton!=null) {
+            AppUI.get().loginButton.setVisible(false);
+        }
+        else{
+            System.out.println("loginButton is null");
+        }
+        if(AppUI.get().registrationButton!=null) {
+            AppUI.get().registrationButton.setVisible(false);
+        }
+        else{
+            System.out.println("registrationButton is null");
+        }
+        if(AppUI.get().chartsControlling!=null) {
+            AppUI.get().chartsControlling.setVisible(false);
+        }
+        else{
+            System.out.println("chartsControlling is null");
+        }
 
         FormLayout form = new FormLayout();
         form.setMargin(true);
@@ -62,13 +78,14 @@ public class AddWeightView extends VerticalLayout {
         confirmSendingWeight = saveButton;
         saveButton.addClickListener(e -> {
             String value = weightToday.getValue();
+            value = value.replaceAll(",", ".");
             String sendErr = weightService.isSendWeightFieldCorrect(value);
             if(sendErr.equalsIgnoreCase("not double")){
                 errorLabel.setVisible(true);
                 errorLabel.setValue("Пожалуйста, введите число");
+//                weightToday.wi
             }
             else if(sendErr.equalsIgnoreCase("successful")){
-                value.replaceAll(",", ".");
                 weightService.addWeight(UserState.get().getUser().getId(), new Date(System.currentTimeMillis()), Double.parseDouble(value));
                 errorLabel.setValue("Данные успешно отправленны");
                 errorLabel.setVisible(true);

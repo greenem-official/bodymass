@@ -68,7 +68,7 @@ public class WeightService {
     }
 
     public String isSendWeightFieldCorrect(String weight) {
-        weight.replaceAll(",", ".");
+        weight = weight.replaceAll(",", ".");
         try{
             Double.parseDouble(weight);
         }
