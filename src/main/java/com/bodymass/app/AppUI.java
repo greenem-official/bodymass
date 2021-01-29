@@ -82,12 +82,14 @@ public class AppUI extends UI {
 
             addWeightButton = new Button("Ввести вес");
             addWeightButton.addClickListener(e -> {
+                UserState.get().setGraphsEnabled(false);
                 setContent(new AddWeightView());
             });
             line1.addComponent(addWeightButton);
 
             addWeightButton = new Button("Графики");
             addWeightButton.addClickListener(e -> {
+                UserState.get().setGraphsEnabled(true);
                 setContent(new AddWeightView());
             });
             line1.addComponent(addWeightButton);
@@ -111,71 +113,72 @@ public class AppUI extends UI {
 //            yearChartButton = new Button("График за год");
 //            yearChartButton.addClickListener(e -> setContent(new YearChartView()));
 //            line1.addComponent(yearChartButton);
+            if (UserState.get().getGraphsEnabled() == true) {
+                FormLayout charts = new FormLayout();
+                chartsControlling = charts;
+                //charts.setMargin(true);
 
-            FormLayout charts = new FormLayout();
-            chartsControlling = charts;
-            //charts.setMargin(true);
+                Label textAboutCahrts = new Label("Графики веса");
 
-            Label textAboutCahrts = new Label("Графики веса");
+                charts.addComponent(textAboutCahrts);
 
-            charts.addComponent(textAboutCahrts);
-
-            NativeSelect<String> selectBox = new NativeSelect<>("Посмотреть график");
-            selectBox.setEmptySelectionAllowed(false);
-            selectBox.setItems("График за неделю", "График за 2 недели", "График за месяц", "График за полгода", "График за год");
-            selectBox.addValueChangeListener(event -> {
-                System.out.println("listener " + event.getValue());
-                if(!event.getValue().equals(event.getOldValue())){
-                    String selected = event.getValue();
+                NativeSelect<String> selectBox = new NativeSelect<>("Посмотреть график");
+                selectBox.setEmptySelectionAllowed(false);
+                selectBox.setItems("График за неделю", "График за 2 недели", "График за месяц", "График за полгода", "График за год");
+                selectBox.addValueChangeListener(event -> {
+                    System.out.println("listener " + event.getValue());
+                    if (!event.getValue().equals(event.getOldValue())) {
+                        String selected = event.getValue();
 //                    Notification.show(selected);
-                    if(selected.equalsIgnoreCase("График за неделю")){
-                        setContent(new OneWeekChartView());
+                        if (selected.equalsIgnoreCase("График за неделю")) {
+                            setContent(new OneWeekChartView());
+                        }
+                        if (selected.equalsIgnoreCase("График за 2 недели")) {
+                            setContent(new TwoWeeksChartView());
+                        }
+                        if (selected.equalsIgnoreCase("График за месяц")) {
+                            setContent(new MonthChartView());
+                        }
+                        if (selected.equalsIgnoreCase("График за полгода")) {
+                            setContent(new HalfAYearChartView());
+                        }
+                        if (selected.equalsIgnoreCase("График за год")) {
+                            setContent(new YearChartView());
+                        }
                     }
-                    if(selected.equalsIgnoreCase("График за 2 недели")){
-                        setContent(new TwoWeeksChartView());
-                    }
-                    if(selected.equalsIgnoreCase("График за месяц")){
-                        setContent(new MonthChartView());
-                    }
-                    if(selected.equalsIgnoreCase("График за полгода")){
-                        setContent(new HalfAYearChartView());
-                    }
-                    if(selected.equalsIgnoreCase("График за год")){
-                        setContent(new YearChartView());
-                    }
-                }
-            });
-            line2.addComponent(selectBox);
+                });
+                line2.addComponent(selectBox);
 
-            Label text1 = new Label("Выбрать другой период:");
-            line3.addComponent(text1);
+                Label text1 = new Label("Выбрать другой период:");
+                line3.addComponent(text1);
 
-            fromDate = new DateField();
+                fromDate = new DateField();
 //            fromDate.setValue(new LocalDate());
-            fromDate.setDateFormat("dd-MM-yyyy");
-            line4.addComponent(fromDate);
+                fromDate.setDateFormat("dd-MM-yyyy");
+                line4.addComponent(fromDate);
 
-            toDate = new DateField();
+                toDate = new DateField();
 //            fromDate.setValue(new LocalDate());
-            toDate.setDateFormat("dd-MM-yyyy");
-            line4.addComponent(toDate);
+                toDate.setDateFormat("dd-MM-yyyy");
+                line4.addComponent(toDate);
 
-            periodButton = new Button("График за период");
-            periodButton.addClickListener(e -> {
-                if(fromDate.getValue() == null || toDate.getValue() == null) {
-                    Notification.show("Не указана дата");
-                } else {
-                    setContent(new PeriodWeeksChartView(Date.valueOf(fromDate.getValue()), Date.valueOf(toDate.getValue())));
-                }
-            });
-            line4.addComponent(periodButton);
+                periodButton = new Button("График за период");
+                periodButton.addClickListener(e -> {
+                    if (fromDate.getValue() == null || toDate.getValue() == null) {
+                        Notification.show("Не указана дата");
+                    } else {
+                        setContent(new PeriodWeeksChartView(Date.valueOf(fromDate.getValue()), Date.valueOf(toDate.getValue())));
+                    }
+                });
+                line4.addComponent(periodButton);
+                charts.addComponent(line2);
+                charts.addComponent(line3);
+                charts.addComponent(line4);
+                grid.addComponent(charts, 0, 2);
+            }
 
 //            charts.addComponent(line1);
-            charts.addComponent(line2);
-            charts.addComponent(line3);
-            charts.addComponent(line4);
             grid.addComponent(line1, 0, 1);
-            grid.addComponent(charts, 0, 2);
         }
 
         return grid;

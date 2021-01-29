@@ -50,7 +50,6 @@ public class LoginView extends VerticalLayout {
                 } catch (SQLException e1) {
                     e1.printStackTrace();
                 }
-
                 errorLabel.setValue("Вы вошли");
                 AppUI.get().setContent(new AddWeightView());
             } else if (isErr.equalsIgnoreCase("no such user")) {

@@ -7,6 +7,7 @@ public class UserState {
     private static String SESSION_KEY_USER_STATE = "UserState";
 
     private User user;
+    private boolean graphsEnabled;
 
     public static UserState get() {
         UserState userState = (UserState) VaadinSession.getCurrent().getAttribute(SESSION_KEY_USER_STATE);
@@ -23,5 +24,13 @@ public class UserState {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public boolean getGraphsEnabled() {
+        return graphsEnabled;
+    }
+
+    public void setGraphsEnabled(boolean graphsEnabled) {
+        this.graphsEnabled = graphsEnabled;
     }
 }
