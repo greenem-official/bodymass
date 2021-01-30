@@ -1,0 +1,55 @@
+package com.bodymass.app.util;
+
+import com.bodymass.app.db.model.Weight;
+
+import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.TreeMap;
+
+public class WeightUtil {
+    /**
+     * Adjusts weights by merging with range[from, to]
+     * @param weights list of weights that should be adjusted in toRange
+     * @param from starting toRange point
+     * @param to ending toRange point
+     * @param initialValue initial value of toRange values
+     * @return
+     */
+    public static List<Weight> toRange(List<Weight> weights, Date from, Date to, double initialValue) {
+        TreeMap<Date, Weight> tree = new TreeMap<>();
+        for (Weight weight : weights) {
+            tree.put(weight.getData(), weight);
+        }
+
+        Date d = from;
+        while(d.before(to) || d.equals(to)) {
+            if(!tree.containsKey(d)) {
+                tree.put(d, new Weight(0, 0, d, initialValue));
+            }
+            // move to next day:
+            d = new Date(d.getTime() + 24*60*60*1000);
+        }
+
+        List<Weight> result = new ArrayList<>(tree.values());
+        return result;
+    }
+
+    public static void main(String[] args) {
+        // test:
+        List<Weight> weights = new ArrayList<>();
+        weights.add(new Weight(0, 0, new Date(2021 - 1900, 0, 11), 11));
+        weights.add(new Weight(0, 0, new Date(2021 - 1900, 0, 13), 13));
+        weights.add(new Weight(0, 0, new Date(2021 - 1900, 0, 15), 15));
+
+        List<Weight> result = toRange(weights,
+                new Date(2021 - 1900, 0, 7),
+                new Date(2021 - 1900, 0, 17),
+                10
+        );
+
+        for (Weight weight : result) {
+            System.out.println(weight);
+        }
+    }
+}

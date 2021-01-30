@@ -10,7 +10,6 @@ import com.vaadin.ui.Label;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
-import sun.jvm.hotspot.SALauncher;
 
 import java.sql.Date;
 import java.sql.SQLException;
