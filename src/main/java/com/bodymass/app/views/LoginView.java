@@ -47,6 +47,7 @@ public class LoginView extends VerticalLayout {
                 try {
                     User user = userService.getUser(emailField.getValue(), passwordField.getValue());
                     UserState.get().setUser(user);
+                    UserState.get().setGraphsEnabled(false);
                 } catch (SQLException e1) {
                     e1.printStackTrace();
                 }

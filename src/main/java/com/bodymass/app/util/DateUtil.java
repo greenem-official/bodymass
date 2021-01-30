@@ -22,6 +22,34 @@ public class DateUtil {
         return new Date(c.getTimeInMillis());
     }
 
+    public static Date addMonths(Date date, int months) {
+        Calendar c = Calendar.getInstance();
+        c.setTime(date);
+        c.add(Calendar.MONTH, months);
+        return new Date(c.getTimeInMillis());
+    }
+
+    public static Date subtractMonths(Date date, int months) {
+        Calendar c = Calendar.getInstance();
+        c.setTime(date);
+        c.add(Calendar.MONTH, -months);
+        return new Date(c.getTimeInMillis());
+    }
+
+    public static Date addYears(Date date, int years) {
+        Calendar c = Calendar.getInstance();
+        c.setTime(date);
+        c.add(Calendar.YEAR, years);
+        return new Date(c.getTimeInMillis());
+    }
+
+    public static Date subtractYears(Date date, int years) {
+        Calendar c = Calendar.getInstance();
+        c.setTime(date);
+        c.add(Calendar.YEAR, -years);
+        return new Date(c.getTimeInMillis());
+    }
+
     public static void main(String[] args) {
         Date today = today();
         Date sevenDaysAgo = subtractDays(today, 7);

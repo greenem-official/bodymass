@@ -197,7 +197,7 @@ public class AddWeightView extends VerticalLayout {
             String daysAgo = HowLongAgoWasAddedLast(UserState.get().getUser().getId());
             if(daysAgo!=null && !daysAgo.equalsIgnoreCase("never")){
                 long longDaysAgo = Math.abs(Long.parseLong(daysAgo));
-                System.out.println(daysAgo);
+                //System.out.println(daysAgo);
                 if(longDaysAgo < 1) {
                     //nothing
                     announcementField.setVisible(false);

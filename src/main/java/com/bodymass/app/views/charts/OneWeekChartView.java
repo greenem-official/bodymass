@@ -24,9 +24,11 @@ public class OneWeekChartView extends VerticalLayout {
         long userId = UserState.get().getUser().getId();
 
         List<Weight> weights = weightService.selectLastWeek(userId);
+        //System.out.println(weights.toString());
         Date today = today();
-        Date sixDaysAgo = subtractDays(today, 6);
-        panel.setContent(new ChartView("Индекс массы тела за недею", toRange(weights, sixDaysAgo, today, 0.0)));
+        Date nDaysAgo = subtractDays(today, 6);
+        panel.setContent(new ChartView("Индекс массы тела", toRange(weights, nDaysAgo, today, 0)));
+        //System.out.println(toRange(weights, sixDaysAgo, today, 0).toString());
 
         addComponent(AppUI.get().createMenu());
         addComponent(panel);

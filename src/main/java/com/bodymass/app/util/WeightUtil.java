@@ -17,15 +17,18 @@ public class WeightUtil {
      * @return
      */
     public static List<Weight> toRange(List<Weight> weights, Date from, Date to, double initialValue) {
-        TreeMap<Date, Weight> tree = new TreeMap<>();
+        TreeMap<String, Weight> tree = new TreeMap<>();
         for (Weight weight : weights) {
-            tree.put(weight.getData(), weight);
+            tree.put(new Date(weight.getData().getTime()).toString(), weight);
         }
 
         Date d = from;
         while(d.before(to) || d.equals(to)) {
-            if(!tree.containsKey(d)) {
-                tree.put(d, new Weight(0, 0, d, initialValue));
+            //System.out.println(tree.toString());
+            //System.out.println(tree.containsKey(d) + "");
+            //System.out.println(tree.get(d.toString())!=null);
+            if(!tree.containsKey(d.toString())) {
+                tree.put(d.toString(), new Weight(0, 0, d, initialValue));
             }
             // move to next day:
             d = new Date(d.getTime() + 24*60*60*1000);
@@ -45,7 +48,7 @@ public class WeightUtil {
         List<Weight> result = toRange(weights,
                 new Date(2021 - 1900, 0, 7),
                 new Date(2021 - 1900, 0, 17),
-                10
+                0
         );
 
         for (Weight weight : result) {
