@@ -14,6 +14,9 @@ import sun.jvm.hotspot.SALauncher;
 
 import java.sql.Date;
 import java.sql.SQLException;
+import java.time.Duration;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class AddWeightView extends VerticalLayout {
     private WeightService weightService = new WeightService();
@@ -86,10 +89,10 @@ public class AddWeightView extends VerticalLayout {
                     weightService.addWeight(UserState.get().getUser().getId(), new Date(System.currentTimeMillis()), Double.parseDouble(value));
                     errorLabel.setValue("Данные успешно отправленны");
                     errorLabel.setVisible(true);
-                    if(!lastDateOfWeight.isVisible()){
-                        LastTimeDay(lastDateOfWeight);
-                        LastWeight(lastWeight);
-                    }
+                    //if(!lastDateOfWeight.isVisible()){
+                    LastTimeDay(lastDateOfWeight);
+                    LastWeight(lastWeight);
+                    EditAnnouncementField(announcementField);
                 }
             });
             form.addComponent(saveButton);
@@ -98,7 +101,10 @@ public class AddWeightView extends VerticalLayout {
             VLayout.addComponent(announcementField);
             VLayout.addComponent(form);
             VLayout.addComponent(errorLabel);
-            announcementField.setContent(new Label("Вы не вводили данные вчера! (fake message)"));
+
+            announcementField.setVisible(false);
+
+            EditAnnouncementField(announcementField);
 
             panel.setSizeUndefined();
             panel.setContent(VLayout);
@@ -163,6 +169,53 @@ public class AddWeightView extends VerticalLayout {
             lastWeight.setValue(Double.toString(lastValue));
         } else {
             lastWeight.setValue("Ещё нет");
+        }
+    }
+
+    private String HowLongAgoWasAddedLast(long userId){
+        Date lastDate = null;
+        if (UserState.get().getUser() != null) {
+            try {
+                lastDate = weightDao.getDateOfLastWeight(userId);
+                if(lastDate == null) {
+                    return "never";
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        String DaysAgoStr = null;
+        int secondsInDay = 86400000;
+        LocalDate d1 = LocalDate.parse(new Date(System.currentTimeMillis()) + "", DateTimeFormatter.ISO_LOCAL_DATE);
+        LocalDate d2 = LocalDate.parse(lastDate.toString(), DateTimeFormatter.ISO_LOCAL_DATE);
+        Duration diff = Duration.between(d1.atStartOfDay(), d2.atStartOfDay());
+        long diffDays = diff.toDays();
+        return Long.toString(diffDays);
+    }
+
+    private void EditAnnouncementField(Panel announcementField){
+        if(UserState.get().getUser()!=null) {
+            String daysAgo = HowLongAgoWasAddedLast(UserState.get().getUser().getId());
+            if(daysAgo!=null && !daysAgo.equalsIgnoreCase("never")){
+                long longDaysAgo = Math.abs(Long.parseLong(daysAgo));
+                System.out.println(daysAgo);
+                if(longDaysAgo < 1) {
+                    //nothing
+                    announcementField.setVisible(false);
+                }
+                else if(longDaysAgo == 1) {
+                    announcementField.setContent(new Label("Вы не вводили данные сегодня!"));
+                    announcementField.setVisible(true);
+                }
+                else if(longDaysAgo == 2) {
+                    announcementField.setContent(new Label("Вы не вводили данные вчера!"));
+                    announcementField.setVisible(true);
+                }
+                else{
+                    announcementField.setContent(new Label("Вы не вводили данные уже " + longDaysAgo + " дня(ей)!"));
+                    announcementField.setVisible(true);
+                }
+            }
         }
     }
 }

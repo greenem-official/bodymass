@@ -98,25 +98,6 @@ public class AppUI extends UI {
             });
             line1.addComponent(addWeightButton);
 
-//            weekChartButton = new Button("График за неделю");
-//            weekChartButton.addClickListener(e -> setContent(new OneWeekChartView()));
-//            line1.addComponent(weekChartButton);
-//
-//            twoWeeksChartButton = new Button("График за 2 недели");
-//            twoWeeksChartButton.addClickListener(e -> setContent(new TwoWeeksChartView()));
-//            line1.addComponent(twoWeeksChartButton);
-//
-//            monthChartButton = new Button("График за месяц");
-//            monthChartButton.addClickListener(e -> setContent(new MonthChartView()));
-//            line1.addComponent(monthChartButton);
-//
-//            halfYearChartButton = new Button("График за полгода");
-//            halfYearChartButton.addClickListener(e -> setContent(new HalfAYearChartView()));
-//            line1.addComponent(halfYearChartButton);
-//
-//            yearChartButton = new Button("График за год");
-//            yearChartButton.addClickListener(e -> setContent(new YearChartView()));
-//            line1.addComponent(yearChartButton);
             if (UserState.get().getGraphsEnabled() == true) {
                 FormLayout charts = new FormLayout();
                 chartsControlling = charts;

@@ -36,7 +36,7 @@ public class LoginView extends VerticalLayout {
         saveButton.addClickListener(e -> {
             String isErr = "";
             try {
-                isErr = userService.login(emailField.getValue(), passwordField.getValue());
+                isErr = userService.login(emailField.getValue().trim(), passwordField.getValue());
             } catch (SQLException e1) {
                 e1.printStackTrace();
             }

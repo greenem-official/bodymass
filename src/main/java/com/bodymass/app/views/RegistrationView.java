@@ -40,7 +40,7 @@ public class RegistrationView extends VerticalLayout {
         saveButton.addClickListener(e -> {
             String isErr = "undefined";
             try {
-                isErr = userService.register(emailField.getValue(), passwordField.getValue(), secondPasswordField.getValue());
+                isErr = userService.register(emailField.getValue().trim(), passwordField.getValue(), secondPasswordField.getValue());
             } catch (SQLException e1) {
                 e1.printStackTrace();
             }
