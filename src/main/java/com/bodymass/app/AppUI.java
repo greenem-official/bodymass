@@ -73,6 +73,10 @@ public class AppUI extends UI {
 
             grid.addComponent(line1, 0, 0);
         } else {
+            if(UserState.get().getUser()!=null) {
+                Label usernameText = new Label("Вы вошли как " + UserState.get().getUser().getEmail());
+                grid.addComponent(usernameText, 0, 0);
+            }
             exitButton = new Button("Выйти");
             exitButton.addClickListener(e -> {
                 UserState.get().setUser(null);

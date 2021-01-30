@@ -9,6 +9,7 @@ import com.bodymass.app.db.dao.UserDAO;
 
 public class UserService {
     private UserDAO userDAO = new UserDAO();
+    public static int minPasswordLength = 6;
 
     public String register(String email, String password, String secondPassword) throws SQLException {
         if (email.equals("")) {
@@ -22,7 +23,11 @@ public class UserService {
             return "empty password";
         } else if (!password.equals(secondPassword)) {
             return "password mismatch";
-        } else {
+        }
+        else if (password.trim().length() < minPasswordLength || secondPassword.trim().length() < minPasswordLength) {
+            return "short password";
+        }
+        else {
             int result = userDAO.addUser(new User(email, password));
             if (result == 0) {
                 return "successful";

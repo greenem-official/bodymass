@@ -51,6 +51,8 @@ public class RegistrationView extends VerticalLayout {
                 errorLabel.setValue("Пароль не должен быть пустым");
             } else if (isErr.equalsIgnoreCase("password mismatch")) {
                 errorLabel.setValue("Пароли не совпадают");
+            } else if (isErr.equalsIgnoreCase("short password")) {
+                errorLabel.setValue("Пароль должен содержать не менее "+ userService.minPasswordLength + " символов");
             } else if (isErr.equalsIgnoreCase("incorrect email")) {
                 errorLabel.setValue("Введён некорректный Email");
             } else if (isErr.equalsIgnoreCase("registered already")) {
