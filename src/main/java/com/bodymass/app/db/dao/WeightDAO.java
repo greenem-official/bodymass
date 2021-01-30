@@ -277,11 +277,25 @@ public class WeightDAO extends AbstractDAO {
         List<Weight> result = new ArrayList<>();
 
         Connection conn = getConnection();
+        PreparedStatement preparedStatement = null;
 
-        PreparedStatement preparedStatement = conn.prepareStatement("insert into weight (user_id, data, value) values(?, ?, ?)");
-        preparedStatement.setLong(1, userId);
-        preparedStatement.setDate(2, data);
-        preparedStatement.setDouble(3, value);
+        PreparedStatement checkIfAlreadyExists = conn.prepareStatement("SELECT data, value FROM weight WHERE (data=?)");
+        checkIfAlreadyExists.setDate(1, data);
+
+        ResultSet rs1 = checkIfAlreadyExists.executeQuery();
+
+        if(rs1.next()){
+            preparedStatement = conn.prepareStatement("UPDATE weight SET value=? WHERE (data=? and user_id=?)");
+            preparedStatement.setDouble(1, value);
+            preparedStatement.setDate(2, data);
+            preparedStatement.setLong(3, userId);
+        }
+        else {
+            preparedStatement = conn.prepareStatement("insert into weight (user_id, data, value) values(?, ?, ?)");
+            preparedStatement.setLong(1, userId);
+            preparedStatement.setDate(2, data);
+            preparedStatement.setDouble(3, value);
+        }
 
         preparedStatement.execute();
 
