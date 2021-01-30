@@ -130,7 +130,7 @@ public class AppUI extends UI {
                 selectBox.setEmptySelectionAllowed(false);
                 selectBox.setItems("График за неделю", "График за 2 недели", "График за месяц", "График за полгода", "График за год");
                 selectBox.addValueChangeListener(event -> {
-                    System.out.println("listener " + event.getValue());
+                    //System.out.println("listener " + event.getValue());
                     if (!event.getValue().equals(event.getOldValue())) {
                         String selected = event.getValue();
 //                    Notification.show(selected);

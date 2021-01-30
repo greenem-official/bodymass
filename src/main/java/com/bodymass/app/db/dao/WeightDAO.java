@@ -350,4 +350,40 @@ public class WeightDAO extends AbstractDAO {
         }
         return result;
     }
+
+    public Date getDateOfLastWeight(long userId) throws SQLException {
+        Connection conn = getConnection();
+
+        PreparedStatement preparedStatement = conn.prepareStatement("select data from weight where user_id=? order by data desc limit 1");
+        preparedStatement.setLong(1, userId);
+        ResultSet rs = preparedStatement.executeQuery();
+        Date result;
+        if(rs.next()) {
+            result = rs.getDate(1);
+        }
+        else{
+            result = null;
+        }
+        if (rs != null) {
+            try {
+                rs.close();
+            } catch (SQLException sqlEx) {
+            } // ignore
+        }
+
+        if (preparedStatement != null) {
+            try {
+                preparedStatement.close();
+            } catch (SQLException sqlEx) {
+            } // ignore
+        }
+
+        if (conn != null) {
+            try {
+                conn.close();
+            } catch (SQLException sqlEx) {
+            } // ignore
+        }
+        return result;
+    }
 }

@@ -28,19 +28,19 @@ public class AddWeightView extends VerticalLayout {
             AppUI.get().loginButton.setVisible(false);
         }
         else{
-            System.out.println("loginButton is null");
+            //System.out.println("loginButton is null");
         }
         if(AppUI.get().registrationButton!=null) {
             AppUI.get().registrationButton.setVisible(false);
         }
         else{
-            System.out.println("registrationButton is null");
+            //System.out.println("registrationButton is null");
         }
         if(AppUI.get().chartsControlling!=null) {
             AppUI.get().chartsControlling.setVisible(false);
         }
         else{
-            System.out.println("chartsControlling is null");
+            //System.out.println("chartsControlling is null");
         }
         Panel announcementField = new Panel("");
         Panel panel = new Panel("Ввести вес");
@@ -70,7 +70,13 @@ public class AddWeightView extends VerticalLayout {
             }
             form.addComponent(lastWeight);
 
-            TextField TodayWeight = new TextField("Вес сегодня");
+            TextField lastDateOfWeight = new TextField("Было введено");
+            lastDateOfWeight.setRequiredIndicatorVisible(false);
+            lastDateOfWeight.setEnabled(false);
+            LastTimeDay(lastDateOfWeight);
+            form.addComponent(lastDateOfWeight);
+
+            TextField TodayWeight = new TextField("Вес сейчас");
             TodayWeight.setRequiredIndicatorVisible(false);
             weightToday = TodayWeight;
             form.addComponent(TodayWeight);
@@ -85,10 +91,16 @@ public class AddWeightView extends VerticalLayout {
                     errorLabel.setVisible(true);
                     errorLabel.setValue("Пожалуйста, введите число");
 //                weightToday.wi
+                } else if (sendErr.equalsIgnoreCase("negative or 0")) {
+                    errorLabel.setVisible(true);
+                    errorLabel.setValue("Число должно быть больше нуля");
                 } else if (sendErr.equalsIgnoreCase("successful")) {
                     weightService.addWeight(UserState.get().getUser().getId(), new Date(System.currentTimeMillis()), Double.parseDouble(value));
                     errorLabel.setValue("Данные успешно отправленны");
                     errorLabel.setVisible(true);
+                    if(!lastDateOfWeight.isVisible()){
+                        LastTimeDay(lastDateOfWeight);
+                    }
                 }
             });
             form.addComponent(saveButton);
@@ -107,6 +119,45 @@ public class AddWeightView extends VerticalLayout {
         if(UserState.get().getGraphsEnabled()==false) {
             addComponent(announcementField);
             addComponent(panel);
+        }
+    }
+
+    private void LastTimeDay(TextField lastDateOfWeight){
+        Date lastDate = null;
+        if (UserState.get().getUser() != null) {
+            try {
+                lastDate = weightDao.getDateOfLastWeight(UserState.get().getUser().getId());
+                if(lastDate == null) {
+                    lastDateOfWeight.setVisible(false);
+                    return;
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        String lastDayStr = null;
+        int secondsInDay = 86400000;
+        if((new Date(System.currentTimeMillis()) + "").equals(lastDate.toString())){
+            lastDayStr = "Сегодня";
+        }
+        if((new Date(System.currentTimeMillis()-secondsInDay*1) + "").equals(lastDate.toString())){
+            lastDayStr = "Вчера";
+        }
+        if((new Date(System.currentTimeMillis()-secondsInDay*2) + "").equals(lastDate.toString())){
+            lastDayStr = "Позавчера";
+        }
+        //System.out.println((new Date(System.currentTimeMillis()) + "").equals(lastDate.toString()));
+        if (lastDate != null) {
+            if(lastDayStr == null) {
+                lastDateOfWeight.setValue(lastDate.toString());
+                lastDateOfWeight.setVisible(true);
+            }
+            else{
+                lastDateOfWeight.setValue(lastDayStr);
+                lastDateOfWeight.setVisible(true);
+            }
+        } else {
+            lastDateOfWeight.setVisible(false);
         }
     }
 }

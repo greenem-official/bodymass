@@ -69,11 +69,15 @@ public class WeightService {
 
     public String isSendWeightFieldCorrect(String weight) {
         weight = weight.replaceAll(",", ".");
+        double w = 0;
         try{
-            Double.parseDouble(weight);
+            w = Double.parseDouble(weight);
         }
         catch(NumberFormatException e){
             return "not double";
+        }
+        if(w<=0){
+            return "negative or 0";
         }
         return "successful";
     }
