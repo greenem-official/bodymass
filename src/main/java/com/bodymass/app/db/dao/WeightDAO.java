@@ -279,8 +279,9 @@ public class WeightDAO extends AbstractDAO {
         Connection conn = getConnection();
         PreparedStatement preparedStatement = null;
 
-        PreparedStatement checkIfAlreadyExists = conn.prepareStatement("SELECT data, value FROM weight WHERE (data=?)");
+        PreparedStatement checkIfAlreadyExists = conn.prepareStatement("SELECT data, value FROM weight WHERE (data=? and user_id=?)");
         checkIfAlreadyExists.setDate(1, data);
+        checkIfAlreadyExists.setDouble(2, userId);
 
         ResultSet rs1 = checkIfAlreadyExists.executeQuery();
 
