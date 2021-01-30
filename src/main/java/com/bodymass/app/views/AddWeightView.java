@@ -51,23 +51,11 @@ public class AddWeightView extends VerticalLayout {
             Label errorLabel = new Label("");
             errorLabel.setVisible(false);
 
-            TextField lastWeight = new TextField("Вес в прошлый раз");
+            final TextField lastWeight = new TextField("Вес в прошлый раз");
             lastWeight.setRequiredIndicatorVisible(false);
             lastWeight.setEnabled(false);
             weightLast = lastWeight;
-            Double lastValue = null;
-            if (UserState.get().getUser() != null) {
-                try {
-                    lastValue = weightDao.getLastWeight(UserState.get().getUser().getId());
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
-            if (lastValue != null) {
-                lastWeight.setValue(Double.toString(lastValue));
-            } else {
-                lastWeight.setValue("Ещё нет");
-            }
+            LastWeight(lastWeight);
             form.addComponent(lastWeight);
 
             TextField lastDateOfWeight = new TextField("Было введено");
@@ -100,6 +88,7 @@ public class AddWeightView extends VerticalLayout {
                     errorLabel.setVisible(true);
                     if(!lastDateOfWeight.isVisible()){
                         LastTimeDay(lastDateOfWeight);
+                        LastWeight(lastWeight);
                     }
                 }
             });
@@ -158,6 +147,22 @@ public class AddWeightView extends VerticalLayout {
             }
         } else {
             lastDateOfWeight.setVisible(false);
+        }
+    }
+
+    private void LastWeight(TextField lastWeight) {
+        Double lastValue = null;
+        if (UserState.get().getUser() != null) {
+            try {
+                lastValue = weightDao.getLastWeight(UserState.get().getUser().getId());
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        if (lastValue != null) {
+            lastWeight.setValue(Double.toString(lastValue));
+        } else {
+            lastWeight.setValue("Ещё нет");
         }
     }
 }
