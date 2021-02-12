@@ -39,6 +39,14 @@ public class WeightUtil {
     }
 
     public static void main(String[] args) {
+        String s1 = "1 2 ";
+        //s1 = s1.trim();
+        String s2 = "dfs";
+        System.out.println(s1.trim()+s2);
+        if(0==0) {
+            return;
+        }
+
         // test:
         List<Weight> weights = new ArrayList<>();
         weights.add(new Weight(0, 0, new Date(2021 - 1900, 0, 11), 11));

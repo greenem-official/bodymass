@@ -8,6 +8,7 @@ public class UserState {
 
     private User user;
     private boolean graphsEnabled;
+    private boolean usePasswordField = true;
 
     public static UserState get() {
         UserState userState = (UserState) VaadinSession.getCurrent().getAttribute(SESSION_KEY_USER_STATE);
@@ -32,5 +33,13 @@ public class UserState {
 
     public void setGraphsEnabled(boolean graphsEnabled) {
         this.graphsEnabled = graphsEnabled;
+    }
+
+    public boolean getUsePasswordField() {
+        return usePasswordField;
+    }
+
+    public void setUsePasswordField(boolean usePasswordField) {
+        this.usePasswordField = usePasswordField;
     }
 }

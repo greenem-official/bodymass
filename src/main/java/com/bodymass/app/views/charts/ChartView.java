@@ -46,8 +46,13 @@ public class ChartView extends VerticalLayout {
 
 
         JFreeChartWrapper wrapper = new JFreeChartWrapper(chart);
-        wrapper.setWidth(Page.getCurrent().getBrowserWindowWidth(), Unit.PIXELS);
-        wrapper.setHeight((float) (Page.getCurrent().getBrowserWindowHeight() * 0.8), Unit.PIXELS);
+        float width = (float) (Page.getCurrent().getBrowserWindowWidth() * 0.8);
+        float height = (float) (Page.getCurrent().getBrowserWindowHeight() * 0.8);
+        if((float) (height/width)>1){
+            height = (float) (width * 0.6);
+        }
+        wrapper.setWidth((float) (width), Unit.PIXELS);
+        wrapper.setHeight((float) (height), Unit.PIXELS);
 
         layout.addComponent(wrapper);
 

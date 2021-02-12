@@ -39,7 +39,7 @@ public class UserService {
     }
 
     public String login(String email, String password) throws SQLException {
-        User user = userDAO.findUser(email, password);
+        User user = userDAO.findUser(email.trim(), password.trim());
         if (email.trim().equals("")) {
             return "empty email";
         } else if (checkValidEmail(email) == false) {

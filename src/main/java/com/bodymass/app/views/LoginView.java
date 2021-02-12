@@ -4,12 +4,7 @@ import com.bodymass.app.AppUI;
 import com.bodymass.app.UserState;
 import com.bodymass.app.db.model.User;
 import com.bodymass.app.services.UserService;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.FormLayout;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.Panel;
-import com.vaadin.ui.TextField;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.*;
 
 import java.sql.SQLException;
 
@@ -28,7 +23,7 @@ public class LoginView extends VerticalLayout {
         emailField.setRequiredIndicatorVisible(true);
         form.addComponent(emailField);
 
-        TextField passwordField = new TextField("Пароль");
+        PasswordField passwordField = new PasswordField("Пароль");
         passwordField.setRequiredIndicatorVisible(true);
         form.addComponent(passwordField);
 
@@ -45,7 +40,7 @@ public class LoginView extends VerticalLayout {
                 errorLabel.setValue("Ошибка входа");
             } else if (isErr.equalsIgnoreCase("successful")) {
                 try {
-                    User user = userService.getUser(emailField.getValue(), passwordField.getValue());
+                    User user = userService.getUser(emailField.getValue().trim(), passwordField.getValue().trim());
                     UserState.get().setUser(user);
                     UserState.get().setGraphsEnabled(false);
                 } catch (SQLException e1) {

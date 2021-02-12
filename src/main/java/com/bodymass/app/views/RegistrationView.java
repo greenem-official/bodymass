@@ -4,12 +4,8 @@ import com.bodymass.app.AppUI;
 import com.bodymass.app.UserState;
 import com.bodymass.app.db.model.User;
 import com.bodymass.app.services.UserService;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.FormLayout;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.Panel;
-import com.vaadin.ui.TextField;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.shared.ui.ValueChangeMode;
+import com.vaadin.ui.*;
 
 import java.sql.SQLException;
 
@@ -17,6 +13,10 @@ public class RegistrationView extends VerticalLayout {
     private UserService userService = new UserService();
 
     public RegistrationView() {
+        boolean usePasswordField = true;
+        if(UserState.get().getUser()!=null){
+            usePasswordField = UserState.get().getUsePasswordField();
+        }
         FormLayout form = new FormLayout();
         form.setMargin(true);
 
@@ -28,11 +28,11 @@ public class RegistrationView extends VerticalLayout {
         emailField.setRequiredIndicatorVisible(true);
         form.addComponent(emailField);
 
-        TextField passwordField = new TextField("Пароль");
+        PasswordField passwordField = new PasswordField("Пароль");
         passwordField.setRequiredIndicatorVisible(true);
         form.addComponent(passwordField);
 
-        TextField secondPasswordField = new TextField("Подтвердите пароль");
+        PasswordField secondPasswordField = new PasswordField("Подтвердите пароль");
         secondPasswordField.setRequiredIndicatorVisible(true);
         form.addComponent(secondPasswordField);
 
@@ -40,7 +40,7 @@ public class RegistrationView extends VerticalLayout {
         saveButton.addClickListener(e -> {
             String isErr = "undefined";
             try {
-                isErr = userService.register(emailField.getValue().trim(), passwordField.getValue(), secondPasswordField.getValue());
+                isErr = userService.register(emailField.getValue().trim(), passwordField.getValue().trim(), secondPasswordField.getValue().trim());
             } catch (SQLException e1) {
                 e1.printStackTrace();
             }
@@ -63,7 +63,7 @@ public class RegistrationView extends VerticalLayout {
                 errorLabel.setValue("Ошибка регистрации");
             } else if (isErr.equalsIgnoreCase("successful")) {
                 try {
-                    User user = userService.getUser(emailField.getValue(), passwordField.getValue());
+                    User user = userService.getUser(emailField.getValue().trim(), passwordField.getValue().trim());
                     UserState.get().setUser(user);
                 } catch (SQLException e1) {
                     e1.printStackTrace();
