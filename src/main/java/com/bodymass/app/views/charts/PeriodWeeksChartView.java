@@ -26,16 +26,14 @@ public class PeriodWeeksChartView extends VerticalLayout {
         long userId = UserState.get().getUser().getId();
 
         List<Weight> weights = weightService.selectPeriod(userId, from, to);
-        Date today = today();
 
         LocalDate d1 = LocalDate.parse(to.toString(), DateTimeFormatter.ISO_LOCAL_DATE);
         LocalDate d2 = LocalDate.parse(from.toString(), DateTimeFormatter.ISO_LOCAL_DATE);
-        Duration diff = Duration.between(d1.atStartOfDay(), d2.atStartOfDay());
+        Duration diff = Duration.between(d2.atStartOfDay(), d1.atStartOfDay());
         long diffDays = diff.toDays();
-        int diffInt = (int) diffDays;
 
-        Date nDaysAgo = subtractDays(to, diffInt);
-        panel.setContent(new ChartView(title, toRange(weights, nDaysAgo, today, 0)));
+        Date nDaysAgo = subtractDays(to, (int) diffDays);
+        panel.setContent(new ChartView(title, toRange(weights, nDaysAgo, to, 0)));
 
         addComponent(AppUI.get().createMenu());
         addComponent(panel);
