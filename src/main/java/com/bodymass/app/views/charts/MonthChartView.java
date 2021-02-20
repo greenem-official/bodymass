@@ -13,6 +13,10 @@ import java.util.List;
 import static com.bodymass.app.util.DateUtil.*;
 import static com.bodymass.app.util.WeightUtil.toRange;
 
+/**
+ * A constructor of page with graphs for last month
+ */
+
 public class MonthChartView extends VerticalLayout {
     private WeightService weightService = new WeightService();
 

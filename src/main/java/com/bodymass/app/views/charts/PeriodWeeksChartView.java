@@ -13,8 +13,12 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
-import static com.bodymass.app.util.DateUtil.*;
+import static com.bodymass.app.util.DateUtil.subtractDays;
 import static com.bodymass.app.util.WeightUtil.toRange;
+
+/**
+ * A constructor of page with graphs for universal period of time
+ */
 
 public class PeriodWeeksChartView extends VerticalLayout {
     private WeightService weightService = new WeightService();

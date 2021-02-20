@@ -1,7 +1,7 @@
 app
 ==============
 
-Template for a simple Vaadin application that only requires a Servlet 3.0 container to run.
+Vaadin application for body mass changing that only requires a Servlet 3.0 container to run.
 
 
 Workflow
@@ -9,12 +9,17 @@ Workflow
 
 To compile the entire project, run "mvn install".
 
-To run the application, run "mvn jetty:run" and open http://localhost:8080/ .
+To run the application, run "mvn jetty:run" and open http://localhost:2345/ .
 
 To produce a deployable production mode WAR:
 - change productionMode to true in the servlet class configuration (nested in the UI class)
 - run "mvn clean package"
 - test the war file with "mvn jetty:run-war"
+
+Adding database
+-------------------------
+
+The script for creating database is located at /src/main/resources/script.sql
 
 Client-Side compilation
 -------------------------

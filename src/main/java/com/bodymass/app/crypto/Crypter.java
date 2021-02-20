@@ -1,5 +1,7 @@
 package com.bodymass.app.crypto;
-
+/**
+* Convenient codec for encryption and decryption
+ */
 public class Crypter {
     private static String secret = "secret";
 
@@ -12,6 +14,6 @@ public class Crypter {
     }
 
     public static void main(String[] args) {
-        System.out.println(decode(encode("123")));
+        System.out.println(encode("admadm"));
     }
 }

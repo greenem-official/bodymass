@@ -3,13 +3,13 @@ package com.bodymass.app.db.dao;
 import com.bodymass.app.crypto.Crypter;
 import com.bodymass.app.db.model.User;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+
+/**
+ * Tools for getting useful data about USERS from database
+ */
 
 public class UserDAO extends AbstractDAO {
     public List<User> selectAllUsers() throws SQLException {

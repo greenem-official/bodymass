@@ -3,6 +3,10 @@ package com.bodymass.app;
 import com.bodymass.app.db.model.User;
 import com.vaadin.server.VaadinSession;
 
+/**
+ * A class for keeping any data of current user's session
+ */
+
 public class UserState {
     private static String SESSION_KEY_USER_STATE = "UserState";
 

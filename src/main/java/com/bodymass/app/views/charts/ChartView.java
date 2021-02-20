@@ -11,6 +11,10 @@ import org.vaadin.addon.JFreeChartWrapper;
 
 import java.util.List;
 
+/**
+ * A constructor for generating any graph using JFreeChart
+ */
+
 public class ChartView extends VerticalLayout {
     String title;
 

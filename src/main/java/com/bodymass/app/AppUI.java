@@ -1,8 +1,5 @@
 package com.bodymass.app;
 
-import javax.servlet.annotation.WebServlet;
-import javax.swing.text.LabelView;
-
 import com.bodymass.app.views.AddWeightView;
 import com.bodymass.app.views.LoginView;
 import com.bodymass.app.views.RegistrationView;
@@ -15,9 +12,8 @@ import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinServlet;
 import com.vaadin.ui.*;
 
+import javax.servlet.annotation.WebServlet;
 import java.sql.Date;
-import java.time.LocalDate;
-import java.util.Set;
 
 /**
  * This UI is the application entry point. A UI may either represent a browser window
@@ -29,6 +25,7 @@ import java.util.Set;
 @PreserveOnRefresh
 @Title("Weight")
 @Theme("mytheme")
+
 public class AppUI extends UI {
     public static AppUI get() {
         return (AppUI) UI.getCurrent();

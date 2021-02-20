@@ -1,11 +1,15 @@
 package com.bodymass.app.services;
 
+import com.bodymass.app.db.dao.UserDAO;
+import com.bodymass.app.db.model.User;
+
 import java.sql.SQLException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.bodymass.app.db.model.User;
-import com.bodymass.app.db.dao.UserDAO;
+/**
+ * Registering a user or logging in, with all the return variations, and a gew other tools
+ */
 
 public class UserService {
     private UserDAO userDAO = new UserDAO();

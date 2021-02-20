@@ -14,6 +14,10 @@ import static com.bodymass.app.util.DateUtil.subtractDays;
 import static com.bodymass.app.util.DateUtil.today;
 import static com.bodymass.app.util.WeightUtil.toRange;
 
+/**
+ * A constructor of page with graphs for last two weeks
+ */
+
 public class TwoWeeksChartView extends VerticalLayout {
     private WeightService weightService = new WeightService();
 

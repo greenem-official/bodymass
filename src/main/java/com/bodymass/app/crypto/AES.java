@@ -8,6 +8,10 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 import java.util.Base64;
 
+/**
+ * Encryption and decryption of data by secret key using AES algorithm
+ */
+
 public class AES {
     private static SecretKeySpec secretKey;
     private static byte[] key;

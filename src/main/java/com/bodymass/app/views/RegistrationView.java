@@ -4,10 +4,13 @@ import com.bodymass.app.AppUI;
 import com.bodymass.app.UserState;
 import com.bodymass.app.db.model.User;
 import com.bodymass.app.services.UserService;
-import com.vaadin.shared.ui.ValueChangeMode;
 import com.vaadin.ui.*;
 
 import java.sql.SQLException;
+
+/**
+ * A constructor for registration panel
+ */
 
 public class RegistrationView extends VerticalLayout {
     private UserService userService = new UserService();
@@ -15,7 +18,8 @@ public class RegistrationView extends VerticalLayout {
     public RegistrationView() {
         boolean usePasswordField = true;
         if(UserState.get().getUser()!=null){
-            usePasswordField = UserState.get().getUsePasswordField();
+            usePasswordField = UserState.get().getUsePasswordField(); // before we thought about making two types of password field for testing (TextField
+                                                                      // and PasswordField types) and switch them if we change opinion on what is better
         }
         FormLayout form = new FormLayout();
         form.setMargin(true);

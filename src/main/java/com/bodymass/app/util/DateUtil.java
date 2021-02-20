@@ -3,6 +3,10 @@ package com.bodymass.app.util;
 import java.sql.Date;
 import java.util.Calendar;
 
+/**
+ * Useful stuff for working on Date object
+ */
+
 public class DateUtil {
     public static Date today() {
         return new java.sql.Date(new java.util.Date().getTime());

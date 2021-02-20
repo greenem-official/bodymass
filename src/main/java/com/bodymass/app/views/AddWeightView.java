@@ -4,18 +4,17 @@ import com.bodymass.app.AppUI;
 import com.bodymass.app.UserState;
 import com.bodymass.app.db.dao.WeightDAO;
 import com.bodymass.app.services.WeightService;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.FormLayout;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.Panel;
-import com.vaadin.ui.TextField;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.*;
 
 import java.sql.Date;
 import java.sql.SQLException;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+
+/**
+ * A constructor for graphs panel with a few functions for it
+ */
 
 public class AddWeightView extends VerticalLayout {
     private WeightService weightService = new WeightService();

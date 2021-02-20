@@ -8,6 +8,10 @@ import com.vaadin.ui.*;
 
 import java.sql.SQLException;
 
+/**
+ * A constructor for login panel
+ */
+
 public class LoginView extends VerticalLayout {
     private UserService userService = new UserService();
 

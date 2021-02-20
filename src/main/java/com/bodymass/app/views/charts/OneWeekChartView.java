@@ -10,10 +10,13 @@ import com.vaadin.ui.VerticalLayout;
 import java.sql.Date;
 import java.util.List;
 
-import static com.bodymass.app.util.WeightUtil.toRange;
-import static com.bodymass.app.util.DateUtil.today;
 import static com.bodymass.app.util.DateUtil.subtractDays;
-import static com.bodymass.app.util.DateUtil.addDays;
+import static com.bodymass.app.util.DateUtil.today;
+import static com.bodymass.app.util.WeightUtil.toRange;
+
+/**
+ * A constructor of page with graphs for last week
+ */
 
 public class OneWeekChartView extends VerticalLayout {
     private WeightService weightService = new WeightService();

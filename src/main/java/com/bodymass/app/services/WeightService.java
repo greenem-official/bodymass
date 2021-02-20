@@ -1,12 +1,15 @@
 package com.bodymass.app.services;
 
-import com.bodymass.app.db.model.Weight;
 import com.bodymass.app.db.dao.WeightDAO;
+import com.bodymass.app.db.model.Weight;
 
 import java.sql.Date;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
+
+/**
+ * Actual tools to get useful data about weight for a graph
+ */
 
 public class WeightService {
     private WeightDAO weightDAO = new WeightDAO();

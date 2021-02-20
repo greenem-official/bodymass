@@ -1,16 +1,14 @@
 package com.bodymass.app.db.dao;
 
-import com.bodymass.app.db.model.User;
 import com.bodymass.app.db.model.Weight;
 
-import java.io.IOException;
-import java.sql.Connection;
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+
+/**
+ * Tools for getting useful data about WEIGHT from database
+ */
 
 public class WeightDAO extends AbstractDAO {
     public List<Weight> selectLastWeek(long userId) throws SQLException {

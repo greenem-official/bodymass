@@ -2,10 +2,14 @@ package com.bodymass.app.db.model;
 
 import java.sql.Date;
 
+/**
+ * A class Weight, containing data of user to certain day
+ */
+
 public class Weight {
     private long id;
     private long userId;
-    private Date data;
+    private Date data; //it could be called "date", but was written as in russian first not to get problems with name (actually not), but it's not so important ;)
     private double value;
 
     public Weight(long id, long userId, Date data, double value) {

@@ -14,7 +14,6 @@ public class WeightUtil {
      * @param from starting toRange point
      * @param to ending toRange point
      * @param initialValue initial value of toRange values
-     * @return
      */
     public static List<Weight> toRange(List<Weight> weights, Date from, Date to, double initialValue) {
         TreeMap<String, Weight> tree = new TreeMap<>();

@@ -1,5 +1,9 @@
 package com.bodymass.app.db.model;
 
+/**
+ * A class User, used all over the whole project
+ */
+
 public class User {
     private long id;
     private String email;
