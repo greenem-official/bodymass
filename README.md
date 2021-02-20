@@ -20,6 +20,7 @@ Adding database
 -------------------------
 
 The script for creating database is located at /src/main/resources/script.sql
+Also you can run /src/main/resources/test.sql to add adm@test.ru user and values for it
 
 Client-Side compilation
 -------------------------
